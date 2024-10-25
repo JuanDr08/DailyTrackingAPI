@@ -5,10 +5,12 @@ export class User {
 
     id: UserType['id']
     email: UserType['email']
+    password: string
 
-    constructor({id, email} : UserType) {
+    constructor({id, email, password} : UserType) {
         this.id = id
         this.email = email
+        this.password = password
     }
 
 }

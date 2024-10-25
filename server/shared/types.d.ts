@@ -8,7 +8,7 @@ export type InsertionResult = InsertOneResult<Document>
 export interface User {
     readonly id: MongoId;
     readonly email: EmailFormat;
-    readonly password?: string
+    readonly password: string
 }
 
 export interface StatusResponses {

@@ -22,4 +22,15 @@ export class UserInterceptor {
     
     }
 
+    async loginInterceptor(req : Request, res : Response) : Promise<void> {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) res.status(400).json({ errors: errors.array() });
+        const { email, password } = req.body
+
+        let query = await this.userController.loginUseCase(email, password)
+        res.status(query.status).json(query)
+    
+    }
+
 }

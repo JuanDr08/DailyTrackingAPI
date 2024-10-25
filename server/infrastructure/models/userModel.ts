@@ -1,5 +1,6 @@
-import { Document, InsertOneResult, ObjectId, WithId } from "mongodb";
+import { Document, InsertOneResult, ObjectId, UpdateResult, WithId } from "mongodb";
 import { ConnectToDatabase } from "../database";
+import { MongoId } from "../../shared/types";
 
 export class UserModel {
 
@@ -21,6 +22,13 @@ export class UserModel {
         const db = ConnectToDatabase.instanceConnect
         const collection = db.db?.collection('usuario')
         const result = await collection?.insertOne({email, password, fehca_de_creacion: new Date()})
+        return result
+    }
+
+    static async updateLastSession(id: MongoId, date: Date): Promise<UpdateResult<Document> | undefined> {
+        const db = ConnectToDatabase.instanceConnect
+        const collection = db.db?.collection('usuario')
+        const result = await collection?.updateOne({_id: id}, {$set: {fecha_y_hora_de_inicio_de_sesion: date}})
         return result
     }
 

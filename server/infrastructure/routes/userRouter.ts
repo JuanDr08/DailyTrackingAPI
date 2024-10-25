@@ -2,27 +2,37 @@
 import express, { Request, Response } from "express"
 
 // Middlewares
-import { postLimiter } from "../middlewares/rateLimit"
+import { postLimiter, loginLimiter } from "../middlewares/rateLimit"
 
 // Validators
-import { ActivityValidator } from "../validators/userValidator"
+import { UserValidator } from "../validators/userValidator"
 
 // Dependencias
 import { userInterceptor } from "../dependencies"
 
 // Constants
-const activityValidator = new ActivityValidator()
+const userValidator = new UserValidator()
 const router = express.Router()
 
 router.post('/',
     express.json(), 
     postLimiter, 
-    activityValidator.registerUserValidator(),
+    userValidator.registerUserValidator(),
     async (req : Request, res : Response) => {
         const loadUserInterceptor = await userInterceptor()
         loadUserInterceptor.registerUserInterceptor(req, res)
     }
 
+)
+
+router.post('/iniciarSesion',
+    express.json(),
+    loginLimiter,
+    userValidator.registerUserValidator(),
+    async (req: Request, res: Response) => {
+        const loadUserInterceptor = await userInterceptor()
+        loadUserInterceptor.loginInterceptor(req, res)
+    }
 )
 
 export default router

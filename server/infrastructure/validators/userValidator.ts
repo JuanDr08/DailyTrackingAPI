@@ -1,6 +1,6 @@
 import { body } from "express-validator"
 
-export class ActivityValidator {
+export class UserValidator {
     
     registerUserValidator = () => {
         return [
