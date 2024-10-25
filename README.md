@@ -161,7 +161,7 @@ Esta API puede utilizarse de la siguiente forma:
 
 **Method** : `POST`
 
-**URL** : `http://localhost:300/usuarios`
+**URL** : `http://localhost:3000/usuarios`
 
 **Auth required** : `False`
 
@@ -176,7 +176,7 @@ Esta API puede utilizarse de la siguiente forma:
 
 **Success Responses**
 
-**Code** : `200 OK, 201 Created ...  `
+**Code** : `200 OK`
 
 ```json
 {
@@ -191,12 +191,59 @@ Esta API puede utilizarse de la siguiente forma:
 
 ------
 
-**Error** : ` 404 Not Found, 500 Internal Server Error ....  `
+**Error** : ` 404 Bad Request`
 
 ```json
 {
-    "status": 401,
+    "status": 400,
     "message": "El usuario ya existe" | "Error al insertar usuario"
+}
+```
+
+------
+
+## Logueo de usuario
+
+**Method** : `POST`
+
+**URL** : `http://localhost:3000/usuarios/iniciarSesion`
+
+**Auth required** : `False`
+
+**body** : 
+
+```json
+{
+    "email": "jdro@gmail.com",
+    "password": "123",
+}
+```
+
+**Success Responses**
+
+**Code** : `200 OK `
+
+```json
+{
+  "status": 200,
+  "data": {
+    "id": "671b16d39eb9aea5a033751f",
+    "email": "jdro@gmail.com",
+    "fecha_y_hora_de_inicio_de_sesion": "2024-10-25T04:01:05.826Z",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWIxNmQzOWViOWFlYTVhMDMzNzUxZiIsImlhdCI6MTcyOTgyODg2NSwiZXhwIjoxNzI5ODMwNjY1fQ.i-wXLtOncLhXgI74dUEFcOwBCdYO1RxfvfTAoYXz1kU"
+  },
+  "message": "Usuario logueado"
+}
+```
+
+------
+
+**Error** : ` 400 Bad Request`
+
+```json
+{
+    "status": 400,
+    "message": "Usuario no encontrado" | "Credenciales incorrectas" | "Error al actualizar usuario"
 }
 ```
 
