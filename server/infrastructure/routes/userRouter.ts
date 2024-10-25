@@ -2,7 +2,7 @@
 import express, { Request, Response } from "express"
 
 // Middlewares
-import { postLimiter, loginLimiter } from "../middlewares/rateLimit"
+import { postLimiter, loginLimiter, getLimiter, putLimiter, deleteLimiter } from "../middlewares/rateLimit"
 
 // Validators
 import { UserValidator } from "../validators/userValidator"
@@ -33,6 +33,34 @@ router.post('/iniciarSesion',
         const loadUserInterceptor = await userInterceptor()
         loadUserInterceptor.loginInterceptor(req, res)
     }
+)
+
+router.get('/validarSesion',
+    express.json(),
+    getLimiter
+    // validator de que exista el header
+    // delegar responsabilidad a los interceptores
+)
+
+// Rutas protegidas, tener middleware que verifique el token del header de la peticion
+router.get('/usuarios',
+    getLimiter
+    // auth
+)
+
+router.get('/usuarios/:id',
+    getLimiter
+    // auth
+)
+
+router.put('/usuarios/:id',
+    putLimiter
+    // auth
+)
+
+router.delete('/usuarios/:id',
+    deleteLimiter
+    // auth
 )
 
 export default router
