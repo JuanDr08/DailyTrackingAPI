@@ -8,7 +8,7 @@ import { UserRepository } from "../../domain/interfaces/userInterface";
 import { UserModel } from "../models/userModel";
 
 // Types
-import { EmailFormat, InsertionResult, MongoId } from "../../shared/types";
+import { EmailFormat, InsertionResult, MongoId, UserCompleteInfo } from "../../shared/types";
 
 // Base de datos
 import { ConnectToDatabase } from "../database";
@@ -24,11 +24,11 @@ export class UserRepositoryImpl implements UserRepository {
         return new User({ id: query._id, email: query.email, password: query.password })
 
     }
-    async findUserById(id: string): Promise<User | undefined> {
+    async findUserById(id: string): Promise<UserCompleteInfo | undefined> {
         
         const query = await UserModel.findUserById(id)
         if(!query) return undefined
-        return new User({ id: query._id, email: query.email, password: query.password })
+        return query
 
     }
 

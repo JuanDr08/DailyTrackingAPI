@@ -1,6 +1,6 @@
 import { Document, InsertOneResult, ObjectId, UpdateResult, WithId } from "mongodb";
 import { ConnectToDatabase } from "../database";
-import { MongoId } from "../../shared/types";
+import { MongoId, UserCompleteInfo } from "../../shared/types";
 
 export class UserModel {
 
@@ -11,11 +11,11 @@ export class UserModel {
         return result
     }
 
-    static async findUserById(value: string): Promise<WithId<Document> | null | undefined> {
+    static async findUserById(value: string): Promise<UserCompleteInfo | null | undefined> {
         const db = ConnectToDatabase.instanceConnect
         const collection = db.db?.collection('usuario')
         const result = await collection?.findOne({_id: ObjectId.createFromHexString(value)})
-        return result
+        return result as UserCompleteInfo | null | undefined
     }
 
     static async createUser(email: string, password: string): Promise<InsertOneResult<Document> | undefined> {

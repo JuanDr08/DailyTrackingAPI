@@ -33,4 +33,18 @@ export class UserInterceptor {
     
     }
 
+    async verifyTokenInterceptor(req : Request, res : Response) : Promise<void> {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).json({ status:400, authenticated: false, errors: errors.array() });
+            return
+        }
+
+        const { authorization } = req.headers
+        const token = authorization?.split(' ')[1] as string
+        let query = await this.userController.verifyTokenUseCase(token)
+        res.status(query.status).json(query)
+    }
+
 }

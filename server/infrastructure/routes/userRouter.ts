@@ -37,8 +37,12 @@ router.post('/iniciarSesion',
 
 router.get('/validarSesion',
     express.json(),
-    getLimiter
-    // validator de que exista el header
+    getLimiter,
+    userValidator.tokenHeaderValidator(),
+    async (req: Request, res: Response) => {
+        const loadUserInterceptor = await userInterceptor()
+        loadUserInterceptor.verifyTokenInterceptor(req, res)
+    }
     // delegar responsabilidad a los interceptores
 )
 

@@ -1,5 +1,5 @@
 import { User } from "../entities/user"
-import { EmailFormat, MongoId } from "../../shared/types"
+import { EmailFormat, MongoId, UserCompleteInfo } from "../../shared/types"
 import { UserRepository } from "../interfaces/userInterface"
 import { UserService as UserServiceInterface } from "../interfaces/userInterface"
 
@@ -39,6 +39,22 @@ export class UserService {
     async updateLastSession(id: MongoId, date: Date) : Promise<void> {
         const updateQuery = await this.userRepository.updateLastSession(id, date)
         if (!updateQuery) throw new Error('Error al actualizar usuario')
+    }
+
+    async getUserInfoSession(id: string) : Promise<UserCompleteInfo> {
+
+        const user = await this.userRepository.findUserById(id)
+        if(!user) throw new Error('Usuario no encontrado')
+
+        let data = {
+            id: user.id,
+            email: user.email,
+            fecha_y_hora_de_inicio_de_sesion: user.fecha_y_hora_de_inicio_de_sesion,
+            fecha_de_creacion: user.fecha_de_creacion,
+            password: user.password
+        }
+
+        return data
     }
 
 }

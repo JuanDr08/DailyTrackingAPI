@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import { TokenService } from "../../domain/interfaces/tokenInterface"
-import { MongoId } from "../../shared/types"
+import { jwtDecode, MongoId } from "../../shared/types"
 
 export class TokenServiceImpl implements TokenService {
 
@@ -8,6 +8,14 @@ export class TokenServiceImpl implements TokenService {
         
         const secret = process.env.KEY_SECRET || 'Defecto'
         return jwt.sign({id}, secret, {expiresIn: '30m'})
+
+    }
+
+    verifyToken(token: string): jwtDecode {
+        
+        const secret = process.env.KEY_SECRET || 'Defecto'
+        const verificacion = jwt.verify(token, secret) as jwtDecode
+        return verificacion
 
     }
 

@@ -44,7 +44,16 @@ export class UserController {
             return {status: 400, message: error.message}
         }
         
-    
+    }
+
+    async verifyTokenUseCase(token: string) : Promise<StatusResponses> {
+
+        try {
+            let query = await this.tokenService.verifyToken(token)
+            return {status: 200, data: query, message: 'Token verificado', authenticated: true}
+        } catch (error: any) {
+            return {status: 400, message: error.message, authenticated: false}
+        }
     }
 
 }
