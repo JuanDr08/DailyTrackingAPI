@@ -1,12 +1,11 @@
-import { body, query, param } from "express-validator"
+import { body } from "express-validator"
 
 export class ActivityValidator {
     
-    validationExample = () => {
+    registerUserValidator = () => {
         return [
-            body('name').isString().isLength({ min: 1 }),
-            query('limit').isNumeric().toInt(),
-            param('id').isString().isLength({ min: 1 })
+            body('email').isEmail().withMessage('Formato de email invalido'),
+            body('password').isNumeric().withMessage('Password format invalido'),
         ]
     }
 

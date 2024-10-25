@@ -1,7 +1,14 @@
+import { User as UserType } from "../../shared/types";
 
 
 export class User {
 
-    constructor(readonly id: string, readonly name: string, readonly email: string) {}
+    id: UserType['id']
+    email: UserType['email']
+
+    constructor({id, email} : UserType) {
+        this.id = id
+        this.email = email
+    }
 
 }
